@@ -160,13 +160,21 @@ sudo yum -y install wget httpd php php-mysqlnd php-fpm php-json
 
 # Install php
 sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+
 sudo yum install yum-utils http://rpms.remirepo.net/enterprise/remi-release-8.rpm
+
 sudo yum module list php
+
 sudo yum module reset php
+
 sudo yum module enable php:remi-7.4
+
 sudo yum install php php-opcache php-gd php-curl php-mysqlnd
+
 sudo systemctl start php-fpm
+
 sudo systemctl enable php-fpm
+
 sudo setsebool -P httpd_execmem 1
  
 ![image](https://user-images.githubusercontent.com/49937302/117528276-f82cad00-b003-11eb-99fe-f29f3f67ba4d.png)
@@ -179,11 +187,17 @@ sudo setsebool -P httpd_execmem 1
 
 # download wordpress and cp wordpress to var/www.html
 mkdir wordpress
+
 cd   wordpress
+
 sudo wget http://wordpress.org/latest.tar.gz
+
 sudo tar xzvf latest.tar.gz
+
 sudo rm -rf latest.tar.gz
+
 sudo cp wordpress/wp-config-sample.php wordpress/wp-config.php
+
 sudo cp -R wordpress /var/www/html/
 
 ![image](https://user-images.githubusercontent.com/49937302/117528292-08dd2300-b004-11eb-80c1-55aa1df90818.png)
@@ -191,8 +205,11 @@ sudo cp -R wordpress /var/www/html/
 
 # configure SELINUX policies
 sudo chown -R apache:apache /var/www/html/wordpress
+
 #change file selinux security contest
+
 sudo chcon -t httpd_sys_rw_content_t /var/www/html/wordpress -R 
+
 sudo setsebool -P httpd_can_network_connect=1
  
 ![image](https://user-images.githubusercontent.com/49937302/117528299-11cdf480-b004-11eb-9575-dd2af7ddf212.png)
@@ -211,11 +228,17 @@ sudo setsebool -P httpd_can_network_connect=1
 
 # Configure DB to work with wordpress
 sudo mysql
+
 CREATE DATABASE wordpress;
+
 CREATE USER `vincent`@`172.31.19.26` IDENTIFIED BY 'mypass';
+
 GRANT ALL ON wordpress.* TO 'vincent'@'172.31.19.26';
+
 FLUSH PRIVILEGES;
+
 SHOW DATABASES;
+
 Exit
 
 ![image](https://user-images.githubusercontent.com/49937302/117528309-24482e00-b004-11eb-8e47-3ea62a8c5e1b.png)
